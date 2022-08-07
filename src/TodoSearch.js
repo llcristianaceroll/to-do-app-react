@@ -1,8 +1,9 @@
 import React from "react";
+import './TodoSearch.css'
 
-const TodoSearch = (props) => {
+const TodoSearch = () => {
     return (
-        <input placeholder="cebolla" />
+        <input className="TodoSearch" placeholder="cebolla" />
     );
 }
 
