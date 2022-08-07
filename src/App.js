@@ -7,9 +7,9 @@ import TodoItem from './TodoItem';
 import CreateToDoButton from './CreateToDoButton';
 
 const todos = [
-  { text: 'Cortar cebolla', completed: true},
-  { text: 'Tomar el curso de react', completed: false},
-  { text: 'Llorar con la llorona', completed: false},
+  { text: 'Go to the gym', completed: true},
+  { text: 'Fix bug', completed: false},
+  { text: 'Study English', completed: false},
 ]
 function App() {
   return (
