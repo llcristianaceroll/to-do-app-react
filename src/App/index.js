@@ -1,28 +1,34 @@
 import React from "react";
 import AppUI from "./AppUI";
 
-// const defaultTodos = [
-//   { text: "Go to the gym", completed: false },
-//   { text: "Fix bug", completed: false },
-//   { text: "Study English", completed: false },
-// ];
+const defaultTodos = [
+  { text: "Go to the gym", completed: false },
+  { text: "Fix bug", completed: false },
+  { text: "Study English", completed: false },
+];
 
 function App() {
-  const localStorageTodos = localStorage.getItem('TO_DOS_V1');
+  /* lógica para persistir datos en local storage */
+
+  const localStorageTodos = localStorage.getItem("TO_DOS_V1");
   let parsedTodos;
 
   if (!localStorageTodos) {
-    localStorage.setItem('TO_DOS_V1', JSON.stringify([]));
+    localStorage.setItem("TO_DOS_V1", JSON.stringify([]));
     parsedTodos = [];
   } else {
     parsedTodos = JSON.parse(localStorageTodos);
   }
 
-  const [todos, setTodos] = React.useState(parsedTodos);
+  const [todos, setTodos] = React.useState(defaultTodos);
   const [searchValue, setSearchValue] = React.useState("");
 
-  const completedTodos = todos.filter((todo) => todo.completed).length;
-  const totalTodos = todos.length;
+  /* lógica para contar to-dos completados */
+
+  const completedTodos = todos.filter((todo) => !!todo.completed).length; // filtramos los todos que han sido completados  como true
+  const totalTodos = todos.length; // todos los todos sean completados o no
+
+  /*  lógica para la búsqueda de to-dos */
 
   let searchedTodos = [];
 
@@ -36,23 +42,30 @@ function App() {
     });
   }
 
+  /* lógica para guardar to-dos */
+
   const saveTodos = (newTodos) => {
-    const stringrifiedTodos = JSON.stringify(newTodos);
-    localStorage.setItem('TO_DOS_V1', stringrifiedTodos);
+    const stringifiedTodos = JSON.stringify(newTodos);
+    localStorage.setItem("TO_DOS_V1", stringifiedTodos);
     setTodos(newTodos);
-  }
+  };
+
+  /* lógica para marcar o subrayar to-dos cuando damos click en el icono */
+
   const completeTodo = (text) => {
     const todoIndex = todos.findIndex((todo) => todo.text === text);
     const newTodos = [...todos];
     // newTodos[todoIndex].completed = true;
-    newTodos[todoIndex].completed = !newTodos[todoIndex].completed; // with this become toggle when we clic again
+    newTodos[todoIndex].completed = !newTodos[todoIndex].completed; // with this become toggle when we click again
     saveTodos(newTodos);
   };
+
+  /* lógica para borrar to-dos cuando damos click en en icono X */
 
   const deleteTodo = (text) => {
     const todoIndex = todos.findIndex((todo) => todo.text === text);
     const newTodos = [...todos];
-    newTodos.splice(todoIndex, 1);
+    newTodos.splice(todoIndex, 1);// a partir de la posición (todoIndex) borra ese elemento
     saveTodos(newTodos);
     /* const newTodos = todos.filter(todo => todo.text !== text)
     setTodos(newTodos) // other way to deleted to-dos */

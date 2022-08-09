@@ -16,7 +16,7 @@ function AppUI({
 }) {
   return (
     <React.Fragment>
-      <TodoCounter total={totalTodos} completed={completedTodos} />
+      <TodoCounter totalTodos={totalTodos} completedTodos={completedTodos} />
       <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
       <TodoList>
         {searchedTodos.map((todo) => (

@@ -8,7 +8,7 @@ const TodoSearch = ({searchValue, setSearchValue}) => {
     setSearchValue(event.target.value);
   };
   return (
-    
+
       <input
         onChange={onSearchValueChange}
         className="TodoSearch"
