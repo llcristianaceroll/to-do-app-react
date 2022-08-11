@@ -9,40 +9,66 @@ const defaultTodos = [
 ];
 */
 
-  /* Custom Hook Local Storage, it is like a useState */
+/* Custom Hook Local Storage, it is like a useState,
+   logic to persist data in local storage */
 
 const useLocalStorage = (itemName, initialValue) => {
-  /* lógica para persistir datos en local storage */
+  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [item, setItem] = React.useState(initialValue);
 
-  const localStorageItem = localStorage.getItem(itemName);
-  let parsedItem;
+  /* logic of the Hook useEffect to simulate when
+     we call an API and we wait for some information */
 
-  if (!localStorageItem) {
-    localStorage.setItem(itemName, JSON.stringify(initialValue));
-    parsedItem = initialValue;
-  } else {
-    parsedItem = JSON.parse(localStorageItem);
-  }
-  const [item, setItem] = React.useState(parsedItem);
+  React.useEffect(() => {
+    setTimeout(() => {
+      try {
+      const localStorageItem = localStorage.getItem(itemName);
+      let parsedItem;
+
+      if (!localStorageItem) {
+        localStorage.setItem(itemName, JSON.stringify(initialValue));
+        parsedItem = initialValue;
+      } else {
+        parsedItem = JSON.parse(localStorageItem);
+      }
+      setItem(parsedItem);
+      setLoading(false);
+      } catch(error){
+        setError(error);
+      }
+    }, 2000);
+  });
 
   /* lógica para guardar to-dos */
 
   const saveItem = (newItem) => {
-    const stringifiedItem = JSON.stringify(newItem);
-    localStorage.setItem(itemName, stringifiedItem);
-    setItem(newItem);
+    try {
+      const stringifiedItem = JSON.stringify(newItem);
+      localStorage.setItem(itemName, stringifiedItem);
+      setItem(newItem);
+    } catch(error) {
+      setError(error);
+    }
+   
   };
-  
-  return [
+
+  return {
     item,
     saveItem,
-  ]
+    loading,
+    error,
+  };
 };
 
 function App() {
-
-  const [todos, saveTodos] = useLocalStorage("TO_DOS_V1", []);
-  const [searchValue, setSearchValue] = React.useState('');
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage("TO_DOS_V1", []);
+  const [searchValue, setSearchValue] = React.useState("");
 
   /* lógica para contar to-dos completados */
 
@@ -86,6 +112,8 @@ function App() {
 
   return (
     <AppUI
+      loading={loading}
+      error={error}
       totalTodos={totalTodos}
       completedTodos={completedTodos}
       searchValue={searchValue}
