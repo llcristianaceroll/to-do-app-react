@@ -12,6 +12,11 @@ const TodoProvider = (props) => {
   } = useLocalStorage("TO_DOS_V1", []);
   const [searchValue, setSearchValue] = React.useState("");
 
+  /* lógica para abrir el modal con el botón + */
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+
   /* lógica para contar to-dos completados */
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length; // filtramos los todos que han sido completados  como true
@@ -64,6 +69,8 @@ const TodoProvider = (props) => {
         searchedTodos,
         completeTodo,
         deleteTodo,
+        openModal, 
+        setOpenModal
       }}
     >
       {props.children}
