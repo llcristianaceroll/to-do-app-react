@@ -36,6 +36,17 @@ const TodoProvider = (props) => {
     });
   }
 
+  /* lógica para añadir To Dos al objeto */
+
+  const addTodo = (text) => {
+    const newTodos = [...todos];
+    newTodos.push({
+      completed: false,
+      text,
+    });
+    saveTodos(newTodos);
+  };
+
   /* lógica para marcar o subrayar to-dos cuando damos click en el icono */
 
   const completeTodo = (text) => {
@@ -67,6 +78,7 @@ const TodoProvider = (props) => {
         searchValue,
         setSearchValue,
         searchedTodos,
+        addTodo,
         completeTodo,
         deleteTodo,
         openModal, 
